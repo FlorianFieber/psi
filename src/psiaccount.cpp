@@ -2625,8 +2625,7 @@ void PsiAccount::processIncomingMessage(const Message &_m)
 
 		m.setBody(msg + "\n------\n" + m.body());
 	}
-	else
-	{
+	else {
 		// change the type?
 		if (!EventDlg::messagingEnabled()) {
 			m.setType("chat");
