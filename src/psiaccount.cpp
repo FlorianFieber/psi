@@ -2624,21 +2624,23 @@ void PsiAccount::processIncomingMessage(const Message &_m)
 
 		m.setBody(msg + "\n------\n" + m.body());
 	}
-
-	// change the type?
-	if (!EventDlg::messagingEnabled()) {
-		m.setType("chat");
-	}
-	else if (m.type() != "headline" && m.invite().isEmpty() && m.mucInvites().isEmpty()) {
-		if (PsiOptions::instance()->getOption("options.messages.force-incoming-message-type").toString() == "message")
-			m.setType("");
-		else if (PsiOptions::instance()->getOption("options.messages.force-incoming-message-type").toString() == "chat")
+	else
+	{
+		// change the type?
+		if (!EventDlg::messagingEnabled()) {
 			m.setType("chat");
-		else if (PsiOptions::instance()->getOption("options.messages.force-incoming-message-type").toString() == "current-open") {
-			if (c != NULL && !c->isHidden())
-				m.setType("chat");
-			else
+		}
+		else if (m.type() != "headline" && m.invite().isEmpty() && m.mucInvites().isEmpty()) {
+			if (PsiOptions::instance()->getOption("options.messages.force-incoming-message-type").toString() == "message")
 				m.setType("");
+			else if (PsiOptions::instance()->getOption("options.messages.force-incoming-message-type").toString() == "chat")
+				m.setType("chat");
+			else if (PsiOptions::instance()->getOption("options.messages.force-incoming-message-type").toString() == "current-open") {
+				if (c != NULL && !c->isHidden())
+					m.setType("chat");
+				else
+					m.setType("");
+			}
 		}
 	}
 
