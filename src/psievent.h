@@ -130,6 +130,9 @@ public:
 	QDomElement toXml(QDomDocument *) const;
 	bool fromXml(PsiCon *, PsiAccount *, const QDomElement *);
 
+	// returns true if the message should be treated as chat
+	bool isChat();
+
 	virtual int priority() const;
 
 	virtual QString description() const;

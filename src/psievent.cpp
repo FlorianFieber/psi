@@ -316,6 +316,14 @@ bool MessageEvent::fromXml(PsiCon *psi, PsiAccount *account, const QDomElement *
 	return false;
 }
 
+bool MessageEvent::isChat()
+{
+	return (v_m.type() == "chat" ||
+			 !PsiOptions::instance()->getOption("options.ui.message.enabled").toBool() ||
+			 (v_m.type() != "headline" && v_m.invite().isEmpty() && v_m.mucInvites().isEmpty() &&
+              PsiOptions::instance()->getOption("options.messages.force-incoming-message-type").toString() == "chat"));
+}
+
 int MessageEvent::priority() const
 {
 	if ( v_m.type() == "headline" )
@@ -997,7 +1005,7 @@ void EventQueue::extractChats(QList<PsiEvent*> *el, const Jid &j, bool compareRe
 		bool extract = false;
 		if(e->type() == PsiEvent::Message) {
 			MessageEvent *me = (MessageEvent *)e;
-			if(j.compare(me->from(), compareRes) && me->message().type() == "chat") { // FIXME: refactor-refactor-refactor
+			if(j.compare(me->from(), compareRes) && me->message().isChat()) { // FIXME: refactor-refactor-refactor
 				extract = true;
 			}
 		}

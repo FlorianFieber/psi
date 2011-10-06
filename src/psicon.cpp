@@ -1533,8 +1533,7 @@ void PsiCon::processEvent(PsiEvent *e, ActivationType activationType)
 		const Message &m = me->message();
 		bool emptyForm = m.getForm().fields().empty();
 		// FIXME: Refactor this, PsiAccount and PsiEvent out
-		if ((m.type() == "chat" && emptyForm)
-		    || !EventDlg::messagingEnabled()) {
+		if (m.isChat() && emptyForm) {
 			isChat = true;
 			sentToChatWindow = me->sentToChatWindow();
 		}

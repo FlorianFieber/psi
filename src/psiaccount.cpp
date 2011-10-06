@@ -2569,7 +2569,7 @@ void PsiAccount::processIncomingMessage(const Message &_m)
 
 	UserListItem *u = findFirstRelevant(_m.from());
 	if(u) {
-		if(_m.type() == "chat") u->setLastMessageType(1);
+		if(_m.isChat()) u->setLastMessageType(1);
 		else u->setLastMessageType(0);
 	}
 
@@ -4638,7 +4638,7 @@ void PsiAccount::handleEvent(PsiEvent* e, ActivationType activationType)
 		}
 
 		// pass chat messages directly to a chat window if possible (and deal with sound)
-		if(m.type() == "chat") {
+		if(m.isChat()) {
 			ChatDlg *c = findChatDialog(e->from());
 			if(!c)
 				c = findChatDialog(e->jid());
@@ -4927,7 +4927,7 @@ void PsiAccount::queueEvent(PsiEvent* e, ActivationType activationType)
 		if (e->type() == PsiEvent::Message) {
 			MessageEvent *me = (MessageEvent *)e;
 			const Message &m = me->message();
-			if (m.type() == "chat")
+			if (m.isChat())
 				doPopup = PsiOptions::instance()->getOption("options.ui.chat.auto-popup").toBool();
 			else if (m.type() == "headline")
 				doPopup = PsiOptions::instance()->getOption("options.ui.message.auto-popup-headlines").toBool();
@@ -5057,7 +5057,7 @@ void PsiAccount::processReadNext(const UserListItem &u)
 	if(e->type() == PsiEvent::Message) {
 		MessageEvent *me = (MessageEvent *)e;
 		const Message &m = me->message();
-		if(m.type() == "chat" && m.getForm().fields().empty())
+		if(m.isChat() && m.getForm().fields().empty())
 			isChat = true;
 	}
 
