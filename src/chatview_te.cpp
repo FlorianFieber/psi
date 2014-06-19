@@ -44,7 +44,6 @@ static const char *informationalColorOpt = "options.ui.look.colors.messages.info
 ChatView::ChatView(QWidget *parent)
 	: PsiTextView(parent)
 	, isMuc_(false)
-	, isEncryptionEnabled_(false)
 	, oldTrackBarPosition(0)
 	, dialog_(0)
 {
@@ -108,11 +107,6 @@ void ChatView::setDialog(QWidget* dialog)
 	dialog_ = dialog;
 }
 
-void ChatView::setEncryptionEnabled(bool enabled)
-{
-	isEncryptionEnabled_ = enabled;
-}
-
 void ChatView::setSessionData(bool isMuc, const QString &jid, const QString name)
 {
 	isMuc_ = isMuc;
@@ -141,7 +135,9 @@ void ChatView::addLogIconsResources()
 void ChatView::markReceived(QString id)
 {
 	if (useMessageIcons_) {
-		document()->addResource(QTextDocument::ImageResource, QUrl(QString("icon:delivery") + id), isEncryptionEnabled_? logIconDeliveredPgp : logIconDelivered);
+		QVariant var = document()->resource(QTextDocument::ImageResource, QUrl(QString("icon:delivery") + id));
+		bool encrypted = (var == logIconSendPgp);
+		document()->addResource(QTextDocument::ImageResource, QUrl(QString("icon:delivery") + id), encrypted? logIconDeliveredPgp : logIconDelivered);
 		setLineWrapColumnOrWidth(lineWrapColumnOrWidth());
 	}
 }
@@ -321,13 +317,13 @@ void ChatView::renderMessage(const MessageView &mv)
 	QString color = colorString(mv.isLocal(), mv.isSpooled());
 	if (useMessageIcons_ && mv.isAwaitingReceipt()) {
 		document()->addResource(QTextDocument::ImageResource, QUrl(QString("icon:delivery") + mv.messageId()),
-					isEncryptionEnabled_ ? logIconSendPgp : logIconSend);
+					mv.isEncrypted() ? logIconSendPgp : logIconSend);
 	}
 	QString icon = useMessageIcons_ ?
 		(QString("<img src=\"%1\" />").arg(mv.isLocal()?
 		(mv.isAwaitingReceipt() ? QString("icon:delivery") + mv.messageId()
-			: isEncryptionEnabled_ ? "icon:log_icon_send_pgp" : "icon:log_icon_send")
-		: isEncryptionEnabled_ ? "icon:log_icon_receive_pgp" : "icon:log_icon_receive")) : "";
+			: mv.isEncrypted() ? "icon:log_icon_send_pgp" : "icon:log_icon_send")
+		: mv.isEncrypted() ? "icon:log_icon_receive_pgp" : "icon:log_icon_receive")) : "";
 	if (mv.isEmote()) {
 		appendText(icon + QString("<span style=\"color: %1\">").arg(color) + QString("[%1]").arg(timestr) + QString(" *%1 ").arg(TextUtil::escape(mv.nick())) + mv.formattedText() + "</span>");
 	} else {

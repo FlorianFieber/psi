@@ -77,6 +77,8 @@ public:
 	inline int status() const { return _status; }
 	inline void setAwaitingReceipt(bool b) { _awaitingReceipt = b; }
 	inline bool isAwaitingReceipt() const { return _awaitingReceipt; }
+	inline void setEncrypted(bool b) { _encrypted = b; }
+	inline bool isEncrypted() const { return _encrypted; }
 	inline void setNick(const QString &nick) { _nick = nick; }
 	inline const QString &nick() const { return _nick; }
 	inline void setMessageId(const QString &id) { _messageId = id; }
@@ -96,6 +98,7 @@ private:
 	bool _local;
 	bool _spooled;
 	bool _awaitingReceipt;
+	bool _encrypted;
 	int _status;
 	QString _messageId;
 	QString _userId;

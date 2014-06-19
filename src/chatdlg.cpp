@@ -832,6 +832,7 @@ void ChatDlg::appendMessage(const Message &m, bool local)
 	mv.setDateTime(m.timeStamp());
 	mv.setSpooled(m.spooled());
 	mv.setAwaitingReceipt(local && m.messageReceipt() == ReceiptRequest);
+	mv.setEncrypted(m.wasEncrypted());
 	chatView()->dispatchMessage(mv);
 
 	if (!m.urlList().isEmpty()) {

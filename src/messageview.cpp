@@ -34,6 +34,7 @@ MessageView::MessageView(Type t)
 	, _local(false)
 	, _spooled(false)
 	, _awaitingReceipt(false)
+	, _encrypted(false)
 	, _status(0)
 	, _dateTime(QDateTime::currentDateTime())
 {

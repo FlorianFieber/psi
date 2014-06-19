@@ -466,7 +466,6 @@ void PsiChatDlg::updatePGP()
 	ui_.tb_pgp->setVisible(account()->hasPGP() &&
 						   !smallChat_ &&
 						   !PsiOptions::instance()->getOption("options.ui.chat.central-toolbar").toBool());
-	ui_.log->setEncryptionEnabled(isEncryptionEnabled());
 }
 
 void PsiChatDlg::doClearButton()
@@ -496,7 +495,6 @@ void PsiChatDlg::doClearButton()
 void PsiChatDlg::setPGPEnabled(bool enabled)
 {
 	act_pgp_->setChecked(enabled);
-	ui_.log->setEncryptionEnabled(enabled);
 }
 
 void PsiChatDlg::toggleSmallChat()
