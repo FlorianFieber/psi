@@ -67,6 +67,8 @@ public slots:
 	void scrollUp();
 	void scrollDown();
 
+	void setEncryptionEnabled(bool enabled);
+
 protected:
 	// override the tab/esc behavior
 	bool focusNextPrevChild(bool next);
@@ -95,6 +97,7 @@ private:
 	bool sessionReady_;
 	QPointer<QWidget> dialog_;
 	bool isMuc_;
+	bool isEncryptionEnabled_;
 	QString jid_;
 	QString name_;
 	PsiAccount *account_;
