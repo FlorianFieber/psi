@@ -44,9 +44,6 @@
 #include "common.h"
 #include "showtextdlg.h"
 #include "psicon.h"
-#ifndef NEWCONTACTLIST
-#include "contactview.h"
-#endif
 #include "psiiconset.h"
 #include "serverinfomanager.h"
 #include "applicationinfo.h"
@@ -60,9 +57,7 @@
 #include "mucjoindlg.h"
 #include "psicontactlist.h"
 #include "desktoputil.h"
-#ifdef NEWCONTACTLIST
 #include "psirosterwidget.h"
-#endif
 
 #include "mainwin_p.h"
 
@@ -126,9 +121,7 @@ public:
 	bool filterActive, prefilterShowOffline, prefilterShowAway;
 	bool squishEnabled;
 
-#ifdef NEWCONTACTLIST
 	PsiRosterWidget* rosterWidget_;
-#endif
 
 	void registerActions();
 	IconAction* getAction( QString name );
@@ -285,56 +278,21 @@ MainWin::MainWin(bool _onTop, bool _asTool, PsiCon* psi)
 	setCentralWidget ( center );
 
 	d->vb_main = new QVBoxLayout(center);
-#ifndef NEWCONTACTLIST
-	cvlist = new ContactView(center);
-#else
 	d->rosterWidget_ = new PsiRosterWidget(center);
 	d->rosterWidget_->setContactList(psi->contactList());
-#endif
 
 	int layoutMargin = 2;
 #ifdef Q_OS_MAC
 	layoutMargin = 0;
-#ifndef NEWCONTACTLIST
-	cvlist->setFrameShape(QFrame::NoFrame);
-#else
 	// FIXME
 	// d->contactListView_->setFrameShape(QFrame::NoFrame);
-#endif
 #endif
 	d->vb_main->setMargin(layoutMargin);
 	d->vb_main->setSpacing(layoutMargin);
 
-#ifndef NEWCONTACTLIST
-	// create search bar
-	d->searchWidget = new QWidget(centralWidget());
-	d->vb_main->addWidget(d->searchWidget);
-	QHBoxLayout* searchLayout = new QHBoxLayout(d->searchWidget);
-	searchLayout->setMargin(0);
-	searchLayout->setSpacing(0);
-	d->searchText = new QLineEdit(d->searchWidget);
-	connect(d->searchText,SIGNAL(textEdited(const QString&)),SLOT(searchTextEntered(const QString&)));
-	searchLayout->addWidget(d->searchText);
-	d->searchPb = new QToolButton(d->searchWidget);
-	d->searchPb->setText("X");
-	connect(d->searchPb,SIGNAL(clicked()),SLOT(searchClearClicked()));
-	connect(cvlist, SIGNAL(searchInput(const QString&)), SLOT(searchTextStarted(const QString&)));
-	searchLayout->addWidget(d->searchPb);
-	d->searchWidget->setVisible(false);
-#endif
 
 	//add contact view
-#ifndef NEWCONTACTLIST
-	d->vb_main->addWidget(cvlist);
-# ifdef Q_OS_MAC
-	// Disable the empty vertical scrollbar:
-	// it's here because of weird code in q3scrollview.cpp
-	// Q3ScrollView::updateScrollBars() around line 877
-	d->vb_main->addSpacing(4);
-# endif
-#else
 	d->vb_main->addWidget(d->rosterWidget_);
-#endif
 
 	d->statusMenu = new QMenu(tr("Status"), this);
 	d->statusMenu->setObjectName("statusMenu");
@@ -474,21 +432,12 @@ void MainWin::registerAction( IconAction* action )
 		QObject* receiver;
 		const char* slot;
 	} actionlist[] = {
-#ifndef NEWCONTACTLIST
-		{ "show_offline", toggled, cvlist, SLOT( setShowOffline(bool) ) },
-		{ "show_away",    toggled, cvlist, SLOT( setShowAway(bool) ) },
-		{ "show_hidden",  toggled, cvlist, SLOT( setShowHidden(bool) ) },
-		{ "show_agents",  toggled, cvlist, SLOT( setShowAgents(bool) ) },
-		{ "show_self",    toggled, cvlist, SLOT( setShowSelf(bool) ) },
-		{ "show_statusmsg", toggled, cvlist, SLOT( setShowStatusMsg(bool) ) },
-#else
 		{ "show_offline",   toggled, contactList, SLOT( setShowOffline(bool) ) },
 		// { "show_away",      toggled, contactList, SLOT( setShowAway(bool) ) },
 		{ "show_hidden",    toggled, contactList, SLOT( setShowHidden(bool) ) },
 		{ "show_agents",    toggled, contactList, SLOT( setShowAgents(bool) ) },
 		{ "show_self",      toggled, contactList, SLOT( setShowSelf(bool) ) },
 		{ "show_statusmsg", toggled, d->rosterWidget_, SLOT( setShowStatusMsg(bool) ) },
-#endif
 
 		{ "button_options", activated, this, SIGNAL( doOptions() ) },
 
@@ -561,21 +510,12 @@ void MainWin::registerAction( IconAction* action )
 		const char* slot;
 		bool checked;
 	} reverseactionlist[] = {
-#ifndef NEWCONTACTLIST
-		{ "show_away",    cvlist, SIGNAL( showAway(bool) ), setChecked, cvlist->isShowAway()},
-		{ "show_hidden",  cvlist, SIGNAL( showHidden(bool) ), setChecked, cvlist->isShowHidden()},
-		{ "show_offline", cvlist, SIGNAL( showOffline(bool) ), setChecked, cvlist->isShowOffline()},
-		{ "show_self",    cvlist, SIGNAL( showSelf(bool) ), setChecked, cvlist->isShowSelf()},
-		{ "show_agents",  cvlist, SIGNAL( showAgents(bool) ), setChecked, cvlist->isShowAgents()},
-		{ "show_statusmsg", cvlist, SIGNAL( showStatusMsg(bool) ), setChecked, cvlist->isShowStatusMsg()},
-#else
 		// { "show_away",      contactList, SIGNAL(showAwayChanged(bool)), setChecked, contactList->showAway()},
 		{ "show_hidden",    contactList, SIGNAL(showHiddenChanged(bool)), setChecked, contactList->showHidden()},
 		{ "show_offline",   contactList, SIGNAL(showOfflineChanged(bool)), setChecked, contactList->showOffline()},
 		{ "show_self",      contactList, SIGNAL(showSelfChanged(bool)), setChecked, contactList->showSelf()},
 		{ "show_agents",    contactList, SIGNAL(showAgentsChanged(bool)), setChecked, contactList->showAgents()},
 		{ "show_statusmsg", 0, 0, 0, false},
-#endif
 		{ "", 0, 0, 0, false }
 	};
 
@@ -1099,15 +1039,7 @@ void MainWin::keyPressEvent(QKeyEvent* e)
 
 	bool closekey = false;
 	if(e->key() == Qt::Key_Escape) {
-#ifndef NEWCONTACTLIST
-		if (d->searchWidget->isVisible()) {
-			searchClearClicked();
-		} else {
-			closekey = true;
-		}
-#else
 		closekey = true;
-#endif
 	}
 #ifdef Q_OS_MAC
 	else if(e->key() == Qt::Key_W && e->modifiers() & Qt::ControlModifier) {
@@ -1374,9 +1306,6 @@ void MainWin::searchClearClicked()
 {
 	d->searchWidget->setVisible(false);
 	d->searchText->clear();
-#ifndef NEWCONTACTLIST
-	cvlist->clearFilter();
-#endif
 	if (d->filterActive)
 	{
 		d->getAction("show_offline")->setChecked(d->prefilterShowOffline);
@@ -1414,9 +1343,6 @@ void MainWin::searchTextEntered(QString const& text)
 	if (text.isEmpty()) {
 		searchClearClicked();
 	} else {
-#ifndef NEWCONTACTLIST
-		cvlist->setFilter(text);
-#endif
 	}
 }
 

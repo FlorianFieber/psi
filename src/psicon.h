@@ -34,7 +34,6 @@ using namespace XMPP;
 class PsiCon;
 class PsiAccount;
 class PsiEvent;
-class ContactView;
 class AutoUpdater;
 class EventDlg;
 class UserListItem;
@@ -76,9 +75,6 @@ public:
 	void deinit();
 
 	PsiContactList* contactList() const;
-#ifndef NEWCONTACTLIST
-	ContactView* contactView() const;
-#endif
 	EDB *edb() const;
 	TuneControllerManager* tuneManager() const;
 	FileTransDlg *ftdlg() const;

@@ -78,9 +78,6 @@
 #endif
 #include "rosteritemexchangetask.h"
 #include "chatdlg.h"
-#ifndef NEWCONTACTLIST
-# include "contactview.h"
-#endif
 #include "mood.h"
 #include "tune.h"
 #ifdef GROUPCHAT
@@ -143,7 +140,6 @@
 #include "Certificates/CertificateHelpers.h"
 #include "Certificates/CertificateErrorDialog.h"
 #include "Certificates/CertificateDisplayDialog.h"
-#include "legacypsiaccount.h"
 #include "bookmarkmanagedlg.h"
 #include "accountloginpassword.h"
 #include "alertmanager.h"
@@ -969,11 +965,7 @@ public:
 
 PsiAccount* PsiAccount::create(const UserAccount &acc, PsiContactList *parent, CapsRegistry* capsRegistry, TabManager *tabManager)
 {
-#ifdef NEWCONTACTLIST
 	PsiAccount* account = new PsiAccount(acc, parent, capsRegistry, tabManager);
-#else
-	PsiAccount* account = new LegacyPsiAccount(acc, parent, capsRegistry, tabManager);
-#endif
 	account->init();
 	return account;
 }
@@ -6124,11 +6116,6 @@ void PsiAccount::clearRingbuf()
 void PsiAccount::resetLastManualStatusSafeGuard()
 {
 	d->setManualStatus(XMPP::Status());
-}
-
-ContactProfile *PsiAccount::contactProfile() const
-{
-	return 0;
 }
 
 bool PsiAccount::usingSSL() const

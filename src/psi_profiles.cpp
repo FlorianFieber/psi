@@ -402,8 +402,8 @@ void UserAccount::toOptions(OptionsTree *o, QString base)
 	groupList << "/\\/" + name + "\\/\\"; // account name is a very 'special' group
 
 	// special groups that should also have their state remembered
-	groupList << qApp->translate("ContactProfile", "General");
-	groupList << qApp->translate("ContactProfile", "Agents/Transports");
+	groupList << qApp->translate("ContactListSpecialGroup", "General");
+	groupList << qApp->translate("ContactListSpecialGroup", "Agents/Transports");
 
 	// first, add all groups' names to groupList
 	foreach(RosterItem i, roster) {

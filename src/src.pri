@@ -419,91 +419,77 @@ mac {
 	include($$PWD/CocoaUtilities/CocoaUtilities.pri)
 }
 
-CONFIG += newcontactlist
-newcontactlist {
-	DEFINES += NEWCONTACTLIST
-	# DEFINES += CONTACTLIST_NESTED_GROUPS
+# DEFINES += CONTACTLIST_NESTED_GROUPS
+HEADERS += \
+	$$PWD/contactlistview.h \
+	$$PWD/contactlistdragview.h \
+	$$PWD/hoverabletreeview.h \
+	$$PWD/contactlistmodel.h \
+	$$PWD/contactlistmodelselection.h \
+	$$PWD/contactlistdragmodel.h \
+	$$PWD/contactlistviewdelegate.h \
+	$$PWD/contactlistmodelupdater.h \
+	$$PWD/contactlistproxymodel.h \
+	$$PWD/psicontact.h \
+	$$PWD/psiselfcontact.h \
+	$$PWD/psicontactmenu.h \
+	$$PWD/contactlistgroupstate.h \
+	$$PWD/contactlistgroupcache.h \
+	$$PWD/contactlistgroup.h \
+	$$PWD/contactlistnestedgroup.h \
+	$$PWD/contactlistaccountgroup.h \
+	$$PWD/contactlistspecialgroup.h \
+	$$PWD/contactlistgroupmenu.h \
+	$$PWD/contactlistaccountmenu.h \
+	$$PWD/contactlistitem.h \
+	$$PWD/contactlistitemmenu.h \
+	$$PWD/contactlistutil.h \
+	$$PWD/contactlistitemproxy.h \
+	$$PWD/contactupdatesmanager.h \
+	$$PWD/statusmenu.h \
+	$$PWD/psirosterwidget.h \
+	$$PWD/psifilteredcontactlistview.h
+
+SOURCES += \
+	$$PWD/contactlistview.cpp \
+	$$PWD/contactlistdragview.cpp \
+	$$PWD/hoverabletreeview.cpp \
+	$$PWD/contactlistmodel.cpp \
+	$$PWD/contactlistmodelselection.cpp \
+	$$PWD/contactlistdragmodel.cpp \
+	$$PWD/contactlistviewdelegate.cpp \
+	$$PWD/contactlistmodelupdater.cpp \
+	$$PWD/contactlistproxymodel.cpp \
+	$$PWD/psicontact.cpp \
+	$$PWD/psiselfcontact.cpp \
+	$$PWD/psicontactmenu.cpp \
+	$$PWD/contactlistgroupstate.cpp \
+	$$PWD/contactlistgroupcache.cpp \
+	$$PWD/contactlistgroup.cpp \
+	$$PWD/contactlistnestedgroup.cpp \
+	$$PWD/contactlistaccountgroup.cpp \
+	$$PWD/contactlistspecialgroup.cpp \
+	$$PWD/contactlistgroupmenu.cpp \
+	$$PWD/contactlistaccountmenu.cpp \
+	$$PWD/contactlistitem.cpp \
+	$$PWD/contactlistitemmenu.cpp \
+	$$PWD/contactlistutil.cpp \
+	$$PWD/contactlistitemproxy.cpp \
+	$$PWD/contactupdatesmanager.cpp \
+	$$PWD/statusmenu.cpp \
+	$$PWD/psirosterwidget.cpp \
+	$$PWD/psifilteredcontactlistview.cpp
+
+!yapsi {
 	HEADERS += \
-		$$PWD/contactlistview.h \
-		$$PWD/contactlistdragview.h \
-		$$PWD/hoverabletreeview.h \
-		$$PWD/contactlistmodel.h \
-		$$PWD/contactlistmodelselection.h \
-		$$PWD/contactlistdragmodel.h \
-		$$PWD/contactlistviewdelegate.h \
-		$$PWD/contactlistmodelupdater.h \
-		$$PWD/contactlistproxymodel.h \
-		$$PWD/psicontact.h \
-		$$PWD/psiselfcontact.h \
-		$$PWD/psicontactmenu.h \
-		$$PWD/contactlistgroupstate.h \
-		$$PWD/contactlistgroupcache.h \
-		$$PWD/contactlistgroup.h \
-		$$PWD/contactlistnestedgroup.h \
-		$$PWD/contactlistaccountgroup.h \
-		$$PWD/contactlistspecialgroup.h \
-		$$PWD/contactlistgroupmenu.h \
-		$$PWD/contactlistaccountmenu.h \
-		$$PWD/contactlistitem.h \
-		$$PWD/contactlistitemmenu.h \
-		$$PWD/contactlistutil.h \
-		$$PWD/contactlistitemproxy.h \
-		$$PWD/contactupdatesmanager.h \
-		$$PWD/statusmenu.h \
-		$$PWD/psirosterwidget.h \
-		$$PWD/psifilteredcontactlistview.h
+		$$PWD/psicontactlistview.h \
+		$$PWD/psicontactlistviewdelegate.h \
+		$$PWD/psicontactlistmodel.h
 
 	SOURCES += \
-		$$PWD/contactlistview.cpp \
-		$$PWD/contactlistdragview.cpp \
-		$$PWD/hoverabletreeview.cpp \
-		$$PWD/contactlistmodel.cpp \
-		$$PWD/contactlistmodelselection.cpp \
-		$$PWD/contactlistdragmodel.cpp \
-		$$PWD/contactlistviewdelegate.cpp \
-		$$PWD/contactlistmodelupdater.cpp \
-		$$PWD/contactlistproxymodel.cpp \
-		$$PWD/psicontact.cpp \
-		$$PWD/psiselfcontact.cpp \
-		$$PWD/psicontactmenu.cpp \
-		$$PWD/contactlistgroupstate.cpp \
-		$$PWD/contactlistgroupcache.cpp \
-		$$PWD/contactlistgroup.cpp \
-		$$PWD/contactlistnestedgroup.cpp \
-		$$PWD/contactlistaccountgroup.cpp \
-		$$PWD/contactlistspecialgroup.cpp \
-		$$PWD/contactlistgroupmenu.cpp \
-		$$PWD/contactlistaccountmenu.cpp \
-		$$PWD/contactlistitem.cpp \
-		$$PWD/contactlistitemmenu.cpp \
-		$$PWD/contactlistutil.cpp \
-		$$PWD/contactlistitemproxy.cpp \
-		$$PWD/contactupdatesmanager.cpp \
-		$$PWD/statusmenu.cpp \
-		$$PWD/psirosterwidget.cpp \
-		$$PWD/psifilteredcontactlistview.cpp
-
-	!yapsi {
-		HEADERS += \
-			$$PWD/psicontactlistview.h \
-			$$PWD/psicontactlistviewdelegate.h \
-			$$PWD/psicontactlistmodel.h
-
-		SOURCES += \
-			$$PWD/psicontactlistview.cpp \
-			$$PWD/psicontactlistviewdelegate.cpp \
-			$$PWD/psicontactlistmodel.cpp
-	}
-}
-!newcontactlist {
-	QT += qt3support
-	HEADERS += \
-		$$PWD/legacypsiaccount.h \
-		$$PWD/contactview.h
-
-	SOURCES += \
-		$$PWD/legacypsiaccount.cpp \
-		$$PWD/contactview.cpp
+		$$PWD/psicontactlistview.cpp \
+		$$PWD/psicontactlistviewdelegate.cpp \
+		$$PWD/psicontactlistmodel.cpp
 }
 
 CONFIG += pgputil

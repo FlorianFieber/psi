@@ -41,7 +41,6 @@ class PsiToolBar;
 class PsiAccount;
 class IconAction;
 class PsiIcon;
-class ContactView;
 class PsiTrayIcon;
 namespace XMPP {
 	class Status;
@@ -64,9 +63,6 @@ public:
 	QStringList actionList;
 	QMap<QString, QAction*> actions;
 
-#ifndef NEWCONTACTLIST
-	ContactView *cvlist;
-#endif
 
 	PsiCon *psiCon() const;
 

@@ -47,9 +47,6 @@
 #include "lastactivitytask.h"
 #include "vcardfactory.h"
 #include "iconwidget.h"
-#ifndef NEWCONTACTLIST
-# include "contactview.h"
-#endif
 #include "psirichtext.h"
 #include "psioptions.h"
 #include "fileutil.h"
@@ -113,7 +110,7 @@ public:
 		}
 	}
 
-	// use instead of pa->contactProfile()->updateEntry(u)
+	// use instead of pa->updateEntry(u)
 	void updateEntry(const UserListItem &u)
 	{
 		if (!userListItem) {

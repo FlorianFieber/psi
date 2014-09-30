@@ -64,7 +64,6 @@ class ConferenceBookmark;
 class VoiceCaller;
 class CapsRegistry;
 class UserAccount;
-class ContactProfile;
 class QWidget;
 class QString;
 class EventQueue;
@@ -123,7 +122,6 @@ public:
 	QString nameWithJid() const;
 
 	XMPP::Client *client() const;
-	virtual ContactProfile *contactProfile() const;
 	EventQueue *eventQueue() const;
 	EDB *edb() const;
 	PsiCon *psi() const;

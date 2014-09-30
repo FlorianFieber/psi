@@ -41,9 +41,6 @@
 #include "accountadddlg.h"
 #include "psiiconset.h"
 #include "psithememanager.h"
-#ifndef NEWCONTACTLIST
-# include "contactview.h"
-#endif
 #include "psievent.h"
 #include "passphrasedlg.h"
 #include "common.h"
@@ -547,9 +544,6 @@ bool PsiCon::init()
 	connect(d->mainwin, SIGNAL(recvNextEvent()), SLOT(recvNextEvent()));
 	connect(this, SIGNAL(emitOptionsUpdate()), d->mainwin, SLOT(optionsUpdate()));
 
-#ifndef NEWCONTACTLIST
-	connect(this, SIGNAL(emitOptionsUpdate()), d->mainwin->cvlist, SLOT(optionsUpdate()));
-#endif
 
 
 	d->mainwin->setGeometryOptionPath("options.ui.contactlist.saved-window-geometry");
@@ -1832,14 +1826,5 @@ ContactUpdatesManager* PsiCon::contactUpdatesManager() const
 	return contactUpdatesManager_;
 }
 
-#ifndef NEWCONTACTLIST
-ContactView* PsiCon::contactView() const
-{
-	if(d->mainwin)
-		return d->mainwin->cvlist;
-	else
-		return 0;
-}
-#endif
 
 #include "psicon.moc"
