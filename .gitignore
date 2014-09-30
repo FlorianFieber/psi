@@ -1,8 +1,10 @@
 /Makefile
+/Makefile.initvars
 /conf.log
 /conf.pri
 /tmtags
 /psi
+/.qmake.cache
 ._*
 .DS_Store
 .AppleDouble
